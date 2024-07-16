@@ -41,7 +41,8 @@ const MyTable = ({ table }: MyTableProps) => {
           <div className="h-20 w-20 rounded-full bg-sky-400 font-bold flex justify-center items-center">
             <div className="flex flex-col h-16 w-16 rounded-full bg-white  text-black  font-bold  justify-center items-center">
               <p className="text-xl">
-                {occupied}/{table.max}
+                {occupied}
+                <span className="text-sm">/{table.max}</span>
               </p>
               <p className="text-sm text-green-600">{table.max - occupied}</p>
             </div>
