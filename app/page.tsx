@@ -25,7 +25,6 @@ type MyTableProps = {
 };
 const MyTable = ({ table }: MyTableProps) => {
   const [occupied, setOccupied] = useState(table?.occupied);
-  console.log("Ocuu", occupied);
 
   return (
     <section className="container mt-8 mx-auto">
@@ -39,9 +38,9 @@ const MyTable = ({ table }: MyTableProps) => {
           )}
         </Badge>
         <div className=" border-2 border-sky-400 rounded-full flex justify-between items-center">
-          <div className="h-24 w-24 rounded-full bg-sky-400 text-2xl font-bold flex justify-center items-center">
-            <div className="flex flex-col h-20 w-20 rounded-full bg-white  text-black  font-bold  justify-center items-center">
-              <p>
+          <div className="h-20 w-20 rounded-full bg-sky-400 font-bold flex justify-center items-center">
+            <div className="flex flex-col h-16 w-16 rounded-full bg-white  text-black  font-bold  justify-center items-center">
+              <p className="text-xl">
                 {occupied}/{table.max}
               </p>
               <p className="text-sm text-green-600">{table.max - occupied}</p>
@@ -58,7 +57,7 @@ const MyTable = ({ table }: MyTableProps) => {
                     ? "pointer-events-none text-gray-400"
                     : "text-red-600"
                 }
-                size={60}
+                size={50}
                 onClick={() => setOccupied(occupied - 1)}
               />
               <IoMdAddCircle
@@ -67,7 +66,7 @@ const MyTable = ({ table }: MyTableProps) => {
                     ? "pointer-events-none text-gray-400"
                     : "text-green-600"
                 }
-                size={60}
+                size={50}
                 onClick={() => setOccupied(occupied + 1)}
               />
             </div>
