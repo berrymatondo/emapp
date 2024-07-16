@@ -29,38 +29,48 @@ const MyTable = ({ table }: MyTableProps) => {
 
   return (
     <section className="container mt-8 mx-auto">
-      <p className="font-bold text-center mb-2">
-        Table: <span>{table.name}</span>{" "}
-        {occupied >= table.max && (
-          <span className="font-normal bg-red-600 text-white text-sm px-1 rounded-full">
-            FULL
-          </span>
-        )}
-      </p>
-      <div className=" border-2 border-sky-400 rounded-full flex justify-between items-center">
-        <div className="h-24 w-24 rounded-full bg-sky-400 text-2xl font-bold flex justify-center items-center">
-          <div className="flex flex-col h-20 w-20 rounded-full bg-white  text-black  font-bold  justify-center items-center">
-            <p>
-              {occupied}/{table.max}
-            </p>
-            <p className="text-sm text-green-600">{table.max - occupied}</p>
+      <div className="relative ">
+        <Badge className="text-md absolute border-2 border-sky-400 bg-white px-1 rounded-full font-bold text-center mb-2  -top-3 left-1/2 transform -translate-x-1/2 -translate-y-1/2></div>">
+          <span className="text-md">{table.name}</span>{" "}
+          {occupied >= table.max && (
+            <span className="ml-1 font-normal bg-red-600 text-white text-sm px-1 rounded-full">
+              FULL
+            </span>
+          )}
+        </Badge>
+        <div className=" border-2 border-sky-400 rounded-full flex justify-between items-center">
+          <div className="h-24 w-24 rounded-full bg-sky-400 text-2xl font-bold flex justify-center items-center">
+            <div className="flex flex-col h-20 w-20 rounded-full bg-white  text-black  font-bold  justify-center items-center">
+              <p>
+                {occupied}/{table.max}
+              </p>
+              <p className="text-sm text-green-600">{table.max - occupied}</p>
+            </div>
           </div>
-        </div>
-        <div className="font-bold">
-          <Badge className="bg-gray-500 text-white">10 min</Badge>
-        </div>
-        <div className="">
-          <div className="flex">
-            <IoIosRemoveCircle
-              className="text-red-600"
-              size={60}
-              onClick={() => setOccupied(occupied - 1)}
-            />
-            <IoMdAddCircle
-              className="text-green-600"
-              size={60}
-              onClick={() => setOccupied(occupied + 1)}
-            />
+          <div className="font-bold">
+            <Badge className="bg-gray-500 text-white">10 min</Badge>
+          </div>
+          <div className="">
+            <div className="flex">
+              <IoIosRemoveCircle
+                className={
+                  occupied == 0
+                    ? "pointer-events-none text-gray-400"
+                    : "text-red-600"
+                }
+                size={60}
+                onClick={() => setOccupied(occupied - 1)}
+              />
+              <IoMdAddCircle
+                className={
+                  occupied == table.max
+                    ? "pointer-events-none text-gray-400"
+                    : "text-green-600"
+                }
+                size={60}
+                onClick={() => setOccupied(occupied + 1)}
+              />
+            </div>
           </div>
         </div>
       </div>
