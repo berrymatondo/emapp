@@ -1,6 +1,7 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoIosRemoveCircle, IoMdAddCircle } from "react-icons/io";
 
@@ -10,8 +11,14 @@ const tables = [
   { id: 3, name: "Venise", max: 10, occupied: 10 },
 ];
 
-export default function Home() {
-  return <>HOME</>;
+export default function TablesPage() {
+  return (
+    <>
+      {tables.map((table: any) => (
+        <MyTable table={table} key={table.id} />
+      ))}
+    </>
+  );
 }
 
 type MyTableProps = {
@@ -19,6 +26,7 @@ type MyTableProps = {
 };
 const MyTable = ({ table }: MyTableProps) => {
   const [occupied, setOccupied] = useState(table?.occupied);
+  const router = useRouter();
 
   return (
     <section className="container mt-8 mx-auto">
@@ -32,7 +40,10 @@ const MyTable = ({ table }: MyTableProps) => {
           )}
         </Badge>
         <div className=" border-2 border-sky-400 rounded-full flex justify-between items-center">
-          <div className="h-20 w-20 rounded-full bg-sky-400 font-bold flex justify-center items-center">
+          <div
+            onClick={() => router.push(`/tables/${table.id}`)}
+            className="hover:bg-purple-600 h-20 w-20 rounded-full bg-sky-400 font-bold flex justify-center items-center"
+          >
             <div className="flex flex-col h-16 w-16 rounded-full bg-white  text-black  font-bold  justify-center items-center">
               <p className="text-xl">
                 {occupied}
