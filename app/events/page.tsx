@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const events = [
@@ -50,6 +52,7 @@ const events = [
 ];
 
 const EventsPage = () => {
+  const router = useRouter();
   return (
     <div>
       <Card className="border-none">
@@ -60,24 +63,30 @@ const EventsPage = () => {
         </CardHeader>
         <CardContent className="grid gap-4 overflow-hidden">
           <ScrollArea className=" h-96 p-2 border rounded-xl">
-            {events.map((notification, index) => (
-              <div
-                key={index}
-                className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
-              >
-                <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                <div className="space-y-1">
-                  <p className="text-sm font-medium leading-none">
-                    {notification.eventDate}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {notification.eventName} ,{" "}
-                    <strong>{notification.guestNumber}</strong>
-                    {" invités"}
-                  </p>
-                  <p className="italic text-sm text-muted-foreground">
-                    Des commentaires en plus
-                  </p>
+            {events.map((event, index) => (
+              <div key={index} className="mb-4 pb-4 ">
+                <div
+                  onClick={() => router.push(`/events/${event.id}`)}
+                  className=" grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
+                >
+                  <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium leading-none">
+                      {event.eventDate}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {event.eventName} , <strong>{event.guestNumber}</strong>
+                      {" invités"}
+                    </p>
+                    <p className="italic text-sm text-muted-foreground">
+                      Des commentaires en plus
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-end p-2 ">
+                  <Button className="text-red-500">Supprimer</Button>
+
+                  <Button className="bg-gray-100">Editer</Button>
                 </div>
               </div>
             ))}
