@@ -52,7 +52,7 @@ const events = [
 const EventsPage = () => {
   return (
     <div>
-      <Card>
+      <Card className="border-none">
         <CardHeader>
           <CardTitle>{"Evénements"}</CardTitle>
           {/*           <CardDescription>You have 3 unread messages.</CardDescription>
