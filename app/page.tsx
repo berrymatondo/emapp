@@ -1,4 +1,7 @@
+"use client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { IoIosRemoveCircle, IoMdAddCircle } from "react-icons/io";
 
 const tables = [
@@ -21,27 +24,43 @@ type MyTableProps = {
   table: any;
 };
 const MyTable = ({ table }: MyTableProps) => {
+  const [occupied, setOccupied] = useState(table?.occupied);
+  console.log("Ocuu", occupied);
+
   return (
     <section className="container mt-8 mx-auto">
-      <p className="font-bold text-center">
-        Table: <span>{table.name}</span>
+      <p className="font-bold text-center mb-2">
+        Table: <span>{table.name}</span>{" "}
+        {occupied >= table.max && (
+          <span className="font-normal bg-red-600 text-white text-sm px-1 rounded-full">
+            FULL
+          </span>
+        )}
       </p>
       <div className=" border-2 border-sky-400 rounded-full flex justify-between items-center">
         <div className="h-24 w-24 rounded-full bg-sky-400 text-2xl font-bold flex justify-center items-center">
           <div className="flex flex-col h-20 w-20 rounded-full bg-white  text-black  font-bold  justify-center items-center">
             <p>
-              {table.occupied}/{table.max}
+              {occupied}/{table.max}
             </p>
-            <p className="text-sm text-green-600">
-              {table.max - table.occupied}
-            </p>
+            <p className="text-sm text-green-600">{table.max - occupied}</p>
           </div>
         </div>
-        <div className="font-bold">10 min</div>
+        <div className="font-bold">
+          <Badge className="bg-gray-500 text-white">10 min</Badge>
+        </div>
         <div className="">
           <div className="flex">
-            <IoIosRemoveCircle className="text-red-600" size={60} />
-            <IoMdAddCircle className="text-green-600" size={60} />
+            <IoIosRemoveCircle
+              className="text-red-600"
+              size={60}
+              onClick={() => setOccupied(occupied - 1)}
+            />
+            <IoMdAddCircle
+              className="text-green-600"
+              size={60}
+              onClick={() => setOccupied(occupied + 1)}
+            />
           </div>
         </div>
       </div>
