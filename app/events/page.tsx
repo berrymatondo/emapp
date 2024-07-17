@@ -62,7 +62,7 @@ const EventsPage = () => {
            */}{" "}
         </CardHeader>
         <CardContent className="grid gap-4 overflow-hidden">
-          <ScrollArea className=" h-96 p-2 border rounded-xl">
+          <ScrollArea className=" h-3/4 p-2 border rounded-xl">
             {events.map((event, index) => (
               <div key={index} className="mb-4 pb-4 ">
                 <div

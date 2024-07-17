@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { MdAdd, MdClose, MdDelete, MdUpdate } from "react-icons/md";
+import React, { useEffect, useState } from "react";
+import { MdAdd, MdClose, MdDelete, MdEdit, MdUpdate } from "react-icons/md";
 import { Button } from "../ui/button";
 
 import {
@@ -65,6 +65,9 @@ const StockForm = ({
     yc.date.toLocaleDateString().split("/").reverse().join("-")
   );
  */
+
+  //console.log("Stock", stock);
+
   const form = useForm<z.infer<typeof StockSchema>>({
     resolver: zodResolver(StockSchema),
     defaultValues: {
@@ -74,6 +77,15 @@ const StockForm = ({
       eventId: eventId ? eventId : "",
     },
   });
+
+  useEffect(() => {
+    const fetchStock = async (id: any) => {
+      //console.log("STOCKAGE", stock);
+      form.setValue("productName", stock?.productName?.toString());
+      form.setValue("initialQte", stock?.initialQte?.toString());
+    };
+    fetchStock(stock?.id);
+  }, [open]);
 
   const procesForm = async (values: z.infer<typeof StockSchema>) => {
     // console.log("LOAD: ", loading);
@@ -127,14 +139,24 @@ const StockForm = ({
           onClick={() => setOpen(!open)}
           className="w-full flex justify-end mb-2"
         >
-          <Button className="bg-sky-600 rounded-full p-1 px-2 w-full">
-            Ajouter un article
-          </Button>
+          {stock ? (
+            <Button variant="empty">
+              <MdEdit size={25} className="text-sky-600" />
+            </Button>
+          ) : (
+            <Button className="bg-sky-600 rounded-full p-1 px-2 w-full">
+              Ajouter un article
+            </Button>
+          )}
         </div>
         <AlertDialogContent className="bg-white mx-auto">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center justify-between">
-              <span>Nouvel article</span>
+              {stock ? (
+                <span>Editer un article</span>
+              ) : (
+                <span>Nouvel article</span>
+              )}
               <span>
                 <MdClose
                   size={25}
@@ -143,9 +165,15 @@ const StockForm = ({
                 />
               </span>
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-left">
-              {"Ajouter un article dans le stock"}
-            </AlertDialogDescription>
+            {stock ? (
+              <AlertDialogDescription className="text-left">
+                {"Editer un article du stock"}
+              </AlertDialogDescription>
+            ) : (
+              <AlertDialogDescription className="text-left">
+                {"Ajouter un article dans le stock"}
+              </AlertDialogDescription>
+            )}
           </AlertDialogHeader>
 
           <div className="bg-white flex justify-center  p-4 my-2  rounded-lg">

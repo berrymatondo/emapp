@@ -117,8 +117,8 @@ export const deleteStock = async (eventId: string, stockId: string) => {
 
   if (check.status == "KO") return check; */
 
-  console.log("eventId: ", eventId);
-  console.log("stockId: ", stockId);
+  //console.log("eventId: ", eventId);
+  //console.log("stockId: ", stockId);
 
   try {
     const stock = await prisma.stock.delete({

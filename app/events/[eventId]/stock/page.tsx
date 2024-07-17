@@ -64,9 +64,9 @@ const ProductsListPage = async () => {
       //users: true,
       //  company: true,
     },
-    /*     orderBy: {
-      name: "asc",
-    }, */
+    orderBy: {
+      productName: "asc",
+    },
   });
 
   //console.log("stock:", stock);
@@ -89,7 +89,7 @@ const ProductsListPage = async () => {
                 <TableRow>
                   <TableHead className="w-[100px]">Article</TableHead>
                   <TableHead>Quantité</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="text-right"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="">
@@ -99,8 +99,9 @@ const ProductsListPage = async () => {
                       {st.productName}
                     </TableCell>
                     <TableCell>{st.initialQte}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right flex">
                       <DeleteStock stock={st} openDialog={false} />
+                      <StockForm openDialog={false} stock={st} />
                     </TableCell>
                   </TableRow>
                 ))}
