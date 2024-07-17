@@ -11,6 +11,10 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import stock from "../../../public/stock.png";
+import team from "../../../public/team.png";
+import tables from "../../../public/tables.png";
+import Image from "next/image";
 
 const notifications = [
   {
@@ -18,17 +22,23 @@ const notifications = [
     description:
       "Encoder le stock de boissons dans le système. Le faire pour chaque article.",
     link: "/products",
+    image: { val: stock },
+    alt: "stock",
   },
   {
     title: "Gestion des tables",
     description: "Encoder toutes les places dans le système ",
     link: "/tables",
+    image: { val: tables },
+    alt: "tables",
   },
   {
     title: "Gestion de l'équipe",
     description:
       "Encoder toute l'équipe et assigner les tables et rôles à l'équipe",
     link: "/team",
+    image: { val: team },
+    alt: "team",
   },
 ];
 
@@ -50,7 +60,11 @@ const EventDetailsPage = () => {
                 key={index}
                 className="mb-4 grid grid-cols-[64px_1fr] items-start pb-4 last:mb-0 last:pb-0"
               >
-                <div className="flex h-12 w-12 translate-y-1 rounded-full bg-sky-500" />
+                {/*                 <div className="flex h-12 w-12 translate-y-1 rounded-full bg-sky-500" />
+                 */}{" "}
+                <div className="overflow-hidden flex h-12 w-12 translate-y-1 rounded-full bg-red-500">
+                  <Image alt={notification.alt} src={notification.image.val} />
+                </div>
                 <Link href="" className="space-y-1">
                   <p className="text-md font-semibold leading-none text-sky-800">
                     {notification.title}
