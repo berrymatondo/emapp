@@ -84,9 +84,11 @@ const EventsPage = () => {
                   </div>
                 </div>
                 <div className="flex justify-end p-2 ">
-                  <Button className="text-red-500">Supprimer</Button>
+                  <Button variant="empty" className="text-red-500">
+                    Supprimer
+                  </Button>
 
-                  <Button className="bg-gray-100 rounded-xl">Editer</Button>
+                  <Button className=" rounded-full">Editer</Button>
                 </div>
               </div>
             ))}

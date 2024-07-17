@@ -112,10 +112,13 @@ export const getStock = async (stockId: string) => {
 };
 
 // DELETE stock
-export const deleteStock = async (eventId: number, stockId: number) => {
+export const deleteStock = async (eventId: string, stockId: string) => {
   /*   const check = await checkAuth("ADMIN");
 
   if (check.status == "KO") return check; */
+
+  console.log("eventId: ", eventId);
+  console.log("stockId: ", stockId);
 
   try {
     const stock = await prisma.stock.delete({

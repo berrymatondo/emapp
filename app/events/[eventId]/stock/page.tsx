@@ -13,6 +13,18 @@ import React from "react";
 
 import { headers } from "next/headers";
 import prisma from "@/lib/prisma";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import DeleteStock from "@/components/stock/deleteStock";
 
 const notifications = [
   {
@@ -35,7 +47,7 @@ const ProductsListPage = async () => {
   const pathname = headersList.get("x-pathname");
   // const origin_url = headersList.get("x-origin");
 
-  console.log("PATHNAME", pathname);
+  //console.log("PATHNAME", pathname);
 
   const eventId = pathname?.split("events/")[1].split("/")[0];
 
@@ -48,6 +60,7 @@ const ProductsListPage = async () => {
       id: true,
       productName: true,
       initialQte: true,
+      eventId: true,
       //users: true,
       //  company: true,
     },
@@ -56,11 +69,11 @@ const ProductsListPage = async () => {
     }, */
   });
 
-  console.log("stock:", stock);
+  //console.log("stock:", stock);
 
   return (
     <div>
-      <Card>
+      <Card className="border-none">
         <CardHeader>
           <CardTitle>Gestion du stock</CardTitle>
           <CardDescription>
@@ -68,32 +81,33 @@ const ProductsListPage = async () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <div>
-            <div className="w-full flex justify-center bg-sky-600 text-white p-2 rounded-full mb-4">
-              Ajouter un article
-            </div>
-            <StockForm openDialog={false} />
-            {stock.map((notification, index) => (
-              <div
-                key={index}
-                className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
-              >
-                <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                <div className="space-y-1 flex items-start">
-                  <p className="text-sm font-medium leading-none">
-                    {notification.productName}{" "}
-                    <span className="text-sm text-muted-foreground">
-                      {notification.initialQte}
-                    </span>
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <StockForm openDialog={false} />
+
+          <ScrollArea className=" h-96 p-2 border rounded-xl">
+            <Table className="">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Article</TableHead>
+                  <TableHead>Quantité</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="">
+                {stock.map((st) => (
+                  <TableRow key={st.id}>
+                    <TableCell className="font-medium">
+                      {st.productName}
+                    </TableCell>
+                    <TableCell>{st.initialQte}</TableCell>
+                    <TableCell className="text-right">
+                      <DeleteStock stock={st} openDialog={false} />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </ScrollArea>
         </CardContent>
-        <CardFooter>
-          <Button className="w-full">Soumettre </Button>
-        </CardFooter>
       </Card>
     </div>
   );

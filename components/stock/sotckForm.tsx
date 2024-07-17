@@ -55,10 +55,10 @@ const StockForm = ({
   // console.log("add", add);
 
   const pathname = usePathname();
-  console.log("pathname", pathname);
+  //console.log("pathname", pathname);
 
   const eventId = pathname.split("events/")[1].split("/stock")[0];
-  console.log("eventID", eventId);
+  //console.log("eventID", eventId);
 
   /*   console.log(
     "DATE",
@@ -127,8 +127,8 @@ const StockForm = ({
           onClick={() => setOpen(!open)}
           className="w-full flex justify-end mb-2"
         >
-          <Button className="bg-teal-600 rounded-full p-1 px-2 mx-3">
-            <MdAdd size={25} className="text-white" />
+          <Button className="bg-sky-600 rounded-full p-1 px-2 w-full">
+            Ajouter un article
           </Button>
         </div>
         <AlertDialogContent className="bg-white mx-auto">
@@ -280,7 +280,7 @@ const StockForm = ({
                     )}
                   </div> */}
                 </div>
-                <div className="md:flex md:gap-2">
+                <div className="flex flex-col gap-2">
                   <Button
                     onClick={() => {
                       setUpd(false);
@@ -288,14 +288,14 @@ const StockForm = ({
                       //  setLoading(false);
                       //  form.reset();
                     }}
-                    //  variant="empty"
+                    variant="empty"
                     className="w-full text-red-400"
                   >
                     {"Annuler"}
                   </Button>
                   <AlertDialogFooter>
-                    <Button type="submit">
-                      {loading ? "En cours de traitemnt ..." : "Enregistrement"}
+                    <Button className="bg-sky-600 rounded-full" type="submit">
+                      {loading ? "En cours de traitemnt ..." : "Enregistrer"}
                     </Button>
                   </AlertDialogFooter>
                 </div>
