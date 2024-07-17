@@ -40,7 +40,7 @@ const EventDetailsPage = () => {
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Détails de l'événement</CardTitle>
+          <CardTitle>{"Détails de l'événement"}</CardTitle>
           <CardDescription>14-07-2024: Mariage Brandon-Liza</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
