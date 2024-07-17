@@ -58,11 +58,11 @@ const EventDetailsPage = () => {
             {notifications.map((notification, index) => (
               <div
                 key={index}
-                className="mb-4 grid grid-cols-[64px_1fr] items-start pb-4 last:mb-0 last:pb-0"
+                className="mb-4 grid grid-cols-[80px_1fr] items-start pb-4 last:mb-0 last:pb-0"
               >
                 {/*                 <div className="flex h-12 w-12 translate-y-1 rounded-full bg-sky-500" />
                  */}{" "}
-                <div className="overflow-hidden flex h-12 w-12 translate-y-1 rounded-full bg-red-500">
+                <div className="overflow-hidden flex h-16 w-16 translate-y-1 rounded-full bg-red-500">
                   <Image alt={notification.alt} src={notification.image.val} />
                 </div>
                 <Link href="" className="space-y-1">
