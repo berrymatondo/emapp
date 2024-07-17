@@ -44,7 +44,8 @@ const DeleteStock = ({ stock, openDialog }: DeleteStockProps) => {
             </span>
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Cette transaction permet de supprimer un article.
+            Cette transaction permet de supprimer un article (
+            {stock.productName}).
           </AlertDialogDescription>
         </AlertDialogHeader>
 
