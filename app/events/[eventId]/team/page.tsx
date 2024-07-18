@@ -28,6 +28,7 @@ import TableForm from "@/components/table/tableForm";
 import DeleteTable from "@/components/table/deleteTable";
 import DeleteWaiter from "@/components/team/deleteWaiter";
 import WaiterForm from "@/components/team/waiterForm";
+import Link from "next/link";
 
 const WaitersListPage = async () => {
   const headersList = headers();
@@ -91,6 +92,7 @@ const WaitersListPage = async () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[100px] px-2">Nom</TableHead>
+                  <TableHead className="text-right px-2">Table</TableHead>
                   {/*                   <TableHead className="px-2">Cpté</TableHead>
                   <TableHead className="px-2">Dispo</TableHead> */}
                   <TableHead className="text-right px-2"></TableHead>
@@ -101,6 +103,14 @@ const WaitersListPage = async () => {
                   <TableRow key={st.id}>
                     <TableCell className="font-medium px-2">
                       {st.name}
+                    </TableCell>
+                    <TableCell className="font-medium px-2">
+                      <Link
+                        href="/events/1/team/4/tables"
+                        className="itablic text-xs underline"
+                      >
+                        Mes tables
+                      </Link>
                     </TableCell>
                     {/*                    <TableCell className="px-2">{st.maxGuests}</TableCell>
                     <TableCell className="px-2 text-lg font-bold text-green-600">
