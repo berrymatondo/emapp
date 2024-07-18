@@ -24,8 +24,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DeleteStock from "@/components/stock/deleteStock";
+import TableForm from "@/components/table/tableForm";
+import DeleteTable from "@/components/table/deleteTable";
 
-const ProductsListPage = async () => {
+const TablesListPage = async () => {
   const headersList = headers();
   //const header_url = headersList.get("x-url") || "";
   const pathname = headersList.get("x-pathname");
@@ -36,21 +38,35 @@ const ProductsListPage = async () => {
   const eventId = pathname?.split("events/")[1].split("/")[0];
 
   // FETECH
-  const stock = await prisma.stock.findMany({
+  const tables = await prisma.table.findMany({
     where: {
       eventId: eventId ? +eventId : undefined,
     },
     select: {
       id: true,
-      productName: true,
-      initialQte: true,
+      tableName: true,
+      maxGuests: true,
+      curGuests: true,
       eventId: true,
-      currentQte: true,
+      waiterId: true,
+      waiter: true,
       //users: true,
-      //  company: true,
     },
     orderBy: {
-      productName: "asc",
+      tableName: "asc",
+    },
+  });
+
+  const waiters = await prisma.waiter.findMany({
+    /*     where: {
+      eventId: eventId ? +eventId : undefined,
+    }, */
+    select: {
+      id: true,
+      name: true,
+    },
+    orderBy: {
+      name: "asc",
     },
   });
 
@@ -60,37 +76,42 @@ const ProductsListPage = async () => {
     <div>
       <Card className="border-none">
         <CardHeader>
-          <CardTitle>Gestion du stock</CardTitle>
+          <CardTitle>Gestion des tables</CardTitle>
           <CardDescription>
-            Avoir une vue 360 sur toutes les boissons.
+            Avoir une vue 360 sur toutes les tables.
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <StockForm openDialog={false} />
+          <TableForm openDialog={false} />
 
           <ScrollArea className=" h-96 p-2 border rounded-xl">
             <Table className="">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px] px-2">Article</TableHead>
-                  <TableHead className="px-2">Stock</TableHead>
-                  <TableHead className="px-2">Actuel</TableHead>
+                  <TableHead className="w-[100px] px-2">Nom</TableHead>
+                  <TableHead className="px-2">Cpté</TableHead>
+                  <TableHead className="px-2">Dispo</TableHead>
                   <TableHead className="text-right px-2"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className="">
-                {stock.map((st) => (
+                {tables.map((st) => (
                   <TableRow key={st.id}>
                     <TableCell className="font-medium px-2">
-                      {st.productName}
+                      {st.tableName}
+                      {st.waiter?.name}
                     </TableCell>
-                    <TableCell className="px-2">{st.initialQte}</TableCell>
-                    <TableCell className="px-2 font-bold text-sky-800">
-                      {st.currentQte}
+                    <TableCell className="px-2">{st.maxGuests}</TableCell>
+                    <TableCell className="px-2 text-lg font-bold text-green-600">
+                      {st.curGuests}
                     </TableCell>
                     <TableCell className="text-right flex px-2">
-                      <DeleteStock stock={st} openDialog={false} />
-                      <StockForm openDialog={false} stock={st} />
+                      <DeleteTable table={st} openDialog={false} />
+                      <TableForm
+                        openDialog={false}
+                        table={st}
+                        waiters={waiters}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}
@@ -103,4 +124,4 @@ const ProductsListPage = async () => {
   );
 };
 
-export default ProductsListPage;
+export default TablesListPage;

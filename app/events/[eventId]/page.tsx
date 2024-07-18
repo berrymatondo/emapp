@@ -66,7 +66,7 @@ const EventDetailsPage = () => {
               >
                 {/*                 <div className="flex h-12 w-12 translate-y-1 rounded-full bg-sky-500" />
                  */}{" "}
-                <div className="overflow-hidden flex h-20 w-20 translate-y-1 rounded-full bg-red-500">
+                <div className="overflow-hidden flex h-20 w-20 translate-y-1 rounded-full ">
                   <Image alt={event.alt} src={event.image.val} />
                 </div>
                 <Link href="" className="space-y-1">
