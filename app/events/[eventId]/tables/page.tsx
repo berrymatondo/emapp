@@ -70,7 +70,7 @@ const TablesListPage = async () => {
     },
   });
 
-  //console.log("stock:", stock);
+  console.log("tables:", tables);
 
   return (
     <div>
@@ -99,7 +99,7 @@ const TablesListPage = async () => {
                   <TableRow key={st.id}>
                     <TableCell className="font-medium px-2">
                       {st.tableName}
-                      {st.waiter?.name}
+                      <p className="font-light">{st.waiter?.name}</p>
                     </TableCell>
                     <TableCell className="px-2">{st.maxGuests}</TableCell>
                     <TableCell className="px-2 text-lg font-bold text-green-600">

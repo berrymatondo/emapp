@@ -43,9 +43,32 @@ export const createTable = async (data: Inputs) => {
   }
 };
 
+export const unassignedTable = async (eventId: string, tableId: string) => {
+  // console.log("DATA2 ", data);
+
+  //const result = TableSchema.safeParse(data);
+
+  try {
+    const table = await prisma.table.update({
+      where: {
+        id: tableId ? +tableId : undefined,
+      },
+      data: {
+        waiterId: null,
+      },
+    });
+
+    revalidatePath(`/events/${eventId}/tables`);
+
+    return { success: true, data: table };
+  } catch (error) {
+    return { success: false, error };
+  }
+};
+
 // update table
 export const updateTable = async (data: Inputs) => {
-  //console.log("registerUser", data);
+  // console.log("DATA2 ", data);
 
   const result = TableSchema.safeParse(data);
 

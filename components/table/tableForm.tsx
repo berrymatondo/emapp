@@ -29,7 +29,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { TableSchema } from "@/lib/schemas";
-import { createTable, updateTable } from "@/lib/_tableActions";
+import { createTable, unassignedTable, updateTable } from "@/lib/_tableActions";
 import { Waiter } from "@prisma/client";
 import {
   Select,
@@ -62,7 +62,8 @@ const TableForm = ({
   const router = useRouter();
   // const usr: any = userSession?.user;
 
-  //console.log("yc", yc);
+  console.log("TABLE ", table);
+  console.log("waiters ", waiters);
   // console.log("add", add);
 
   const pathname = usePathname();
@@ -86,7 +87,7 @@ const TableForm = ({
       tableName: table ? table.tableName.toString() : "",
       maxGuests: table ? table.maxGuests.toString() : "",
       eventId: eventId ? eventId : "",
-      waiterId: table ? table.waiterId : "",
+      waiterId: table?.waiterId ? table.waiterId.toString() : "",
     },
   });
 
@@ -106,7 +107,7 @@ const TableForm = ({
     //if (!upd) return;
 
     setLoading(true);
-    //console.log("Value: ", values);
+    console.log("Value DATA: ", values);
     //console.log("usr: ", usr);YcSchema
     let res;
     if (table) res = await updateTable(values);
@@ -253,40 +254,6 @@ const TableForm = ({
                     }}
                   />
 
-                  {waiters && (
-                    <FormField
-                      control={form.control}
-                      name="waiterId"
-                      render={({ field }) => {
-                        return (
-                          <FormItem className="w-full">
-                            <FormLabel>Pays</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <SelectTrigger id="framework">
-                                <SelectValue placeholder="Assigner un respo" />
-                              </SelectTrigger>
-                              <SelectContent position="popper">
-                                {waiters?.map((ctr: Waiter) => (
-                                  <SelectItem
-                                    key={ctr.id}
-                                    value={ctr.id.toString()}
-                                  >
-                                    {ctr.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-
-                            <FormMessage />
-                          </FormItem>
-                        );
-                      }}
-                    />
-                  )}
-
                   {/*                <div className="flex justify-between gap-4">
                     <FormField
                       control={form.control}
@@ -354,28 +321,86 @@ const TableForm = ({
                     )}
                   </div> */}
                 </div>
-                <div className="flex flex-col gap-2">
-                  <Button
-                    onClick={() => {
-                      setUpd(false);
-                      setOpen(!open);
-                      //  setLoading(false);
-                      //  form.reset();
-                    }}
-                    variant="empty"
-                    className="w-full text-red-400"
-                  >
-                    {"Annuler"}
-                  </Button>
-                  <AlertDialogFooter>
-                    <Button className="bg-sky-600 rounded-full" type="submit">
-                      {loading ? "En cours de traitemnt ..." : "Enregistrer"}
+                <div className="flex justify-between">
+                  {waiters && (
+                    <FormField
+                      control={form.control}
+                      name="waiterId"
+                      render={({ field }) => {
+                        return (
+                          <FormItem className="w-1/2">
+                            <FormLabel>Responsable</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <SelectTrigger id="framework">
+                                <SelectValue placeholder="Assigner un respo" />
+                              </SelectTrigger>
+                              <SelectContent position="popper">
+                                {waiters?.map((ctr: Waiter) => (
+                                  <SelectItem
+                                    key={ctr.id}
+                                    value={ctr.id.toString()}
+                                  >
+                                    {ctr.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  )}
+
+                  <div>
+                    <Button
+                      onClick={() => {
+                        setUpd(false);
+                        setOpen(!open);
+                        //  setLoading(false);
+                        //  form.reset();
+                      }}
+                      variant="empty"
+                      className="w-full text-red-400"
+                    >
+                      {"Annuler"}
                     </Button>
-                  </AlertDialogFooter>
+                    <AlertDialogFooter>
+                      <Button className="bg-sky-600 rounded-full" type="submit">
+                        {loading ? "En cours de traitemnt ..." : "Enregistrer"}
+                      </Button>
+                    </AlertDialogFooter>
+                  </div>
                 </div>
               </form>
             </Form>
           </div>
+          {table && (
+            <form className="text-right mx-4">
+              <Button
+                variant="empty"
+                className="text-sky-600 italic"
+                type="submit"
+                formAction={() => {
+                  "use serer";
+                  unassignedTable(table.eventId, table.id);
+                  //console.log("Tenors in", tenor);
+
+                  //syncYCConti(continent, tenor);
+                  //console.log("Tenors in2", tenor);
+                  setOpen(!open);
+                  //console.log("Tenors in3", tenor);
+                  window.location.reload();
+                }}
+              >
+                Désassigner
+              </Button>
+            </form>
+          )}
         </AlertDialogContent>
       </AlertDialog>
     </div>
