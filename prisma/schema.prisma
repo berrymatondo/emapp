@@ -42,6 +42,7 @@ model Event {
   guestNumber Int?
   stocks Stock[]
   tables Table[]
+  waiters Waiter[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -87,6 +88,8 @@ model Table {
 model Waiter {
   id Int @id @default(autoincrement())
   name String @unique
+  eventId Int?
+  event Event? @relation(fields: [eventId], references: [id])
   tables Table[]
 
   createdAt DateTime @default(now())

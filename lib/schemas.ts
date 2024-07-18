@@ -24,3 +24,11 @@ export const TableSchema = z.object({
   eventId: z.string(),
   waiterId: z.string().optional(),
 });
+
+export const WaiterSchema = z.object({
+  id: z.number().optional(),
+  name: z.string().min(1, {
+    message: "Le nom est obligatoire",
+  }),
+  eventId: z.string(),
+});

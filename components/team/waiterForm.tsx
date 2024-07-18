@@ -28,7 +28,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { TableSchema } from "@/lib/schemas";
+import { WaiterSchema } from "@/lib/schemas";
 import { createTable, unassignedTable, updateTable } from "@/lib/_tableActions";
 import { Waiter } from "@prisma/client";
 import {
@@ -40,30 +40,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { createWaiter, updateWaiter } from "@/lib/_waiterActions";
 
-type TableFormProps = {
-  table?: any;
+type WaiterFormProps = {
+  // table?: any;
   openDialog: boolean;
-  waiters?: any;
+  waiter?: any;
   //userSession: any;
 };
 
-const TableForm = ({
-  table,
+const WaiterForm = ({
+  //table,
   //userSession,
   openDialog,
-  waiters,
-}: TableFormProps) => {
+  waiter,
+}: WaiterFormProps) => {
   const [open, setOpen] = useState(openDialog);
   const [show, setShow] = useState(false);
   const [upd, setUpd] = useState(true);
-  const [add, setAdd] = useState(table ? false : true);
+  const [add, setAdd] = useState(waiter ? false : true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   // const usr: any = userSession?.user;
 
-  //console.log("TABLE ", table);
-  //console.log("waiters ", waiters);
+  console.log("TABLE ", waiter);
+  // console.log("waiters ", waiters);
   // console.log("add", add);
 
   const pathname = usePathname();
@@ -80,27 +81,26 @@ const TableForm = ({
 
   //console.log("Stock", stock);
 
-  const form = useForm<z.infer<typeof TableSchema>>({
-    resolver: zodResolver(TableSchema),
+  const form = useForm<z.infer<typeof WaiterSchema>>({
+    resolver: zodResolver(WaiterSchema),
     defaultValues: {
-      id: table?.id ? table.id : undefined,
-      tableName: table ? table.tableName.toString() : "",
-      maxGuests: table ? table.maxGuests.toString() : "",
+      id: waiter?.id ? waiter.id : undefined,
+      name: waiter ? waiter.name.toString() : "",
+      // maxGuests: table ? table.maxGuests.toString() : "",
       eventId: eventId ? eventId : "",
-      waiterId: table?.waiterId ? table.waiterId.toString() : "",
+      // waiterId: table?.waiterId ? table.waiterId.toString() : "",
     },
   });
 
   useEffect(() => {
     const fetchStock = async (id: any) => {
       //console.log("STOCKAGE", stock);
-      form.setValue("tableName", table?.tableName?.toString());
-      form.setValue("maxGuests", table?.maxGuests?.toString());
+      form.setValue("name", waiter?.name?.toString());
     };
-    fetchStock(table?.id);
+    fetchStock(waiter?.id);
   }, [open]);
 
-  const procesForm = async (values: z.infer<typeof TableSchema>) => {
+  const procesForm = async (values: z.infer<typeof WaiterSchema>) => {
     // console.log("LOAD: ", loading);
     //console.log("UPD: ", upd);
 
@@ -110,8 +110,8 @@ const TableForm = ({
     console.log("Value DATA: ", values);
     //console.log("usr: ", usr);YcSchema
     let res;
-    if (table) res = await updateTable(values);
-    else res = await createTable(values);
+    if (waiter) res = await updateWaiter(values);
+    else res = await createWaiter(values);
 
     if (!res) {
       console.log("Une erreur est srvenue...");
@@ -126,7 +126,7 @@ const TableForm = ({
       return;
     }
 
-    if (table)
+    if (waiter)
       toast.success(`La donnée a été mise à jour avec succès.`, {
         description: new Date().toISOString().split("T")[0],
       });
@@ -152,23 +152,23 @@ const TableForm = ({
           onClick={() => setOpen(!open)}
           className="w-full flex justify-end mb-2"
         >
-          {table ? (
+          {waiter ? (
             <Button variant="empty">
               <MdEdit size={25} className="text-sky-600" />
             </Button>
           ) : (
             <Button className="bg-sky-600 rounded-full p-1 px-2 w-full">
-              Ajouter une table
+              Ajouter un membre
             </Button>
           )}
         </div>
         <AlertDialogContent className="bg-white mx-auto">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center justify-between">
-              {table ? (
-                <span>Editer une table</span>
+              {waiter ? (
+                <span>Editer un membre</span>
               ) : (
-                <span>Nouvelle table</span>
+                <span>Nouveau membre</span>
               )}
               <span>
                 <MdClose
@@ -178,13 +178,13 @@ const TableForm = ({
                 />
               </span>
             </AlertDialogTitle>
-            {table ? (
+            {waiter ? (
               <AlertDialogDescription className="text-left">
-                {"Editer une table"}
+                {"Editer un membre"}
               </AlertDialogDescription>
             ) : (
               <AlertDialogDescription className="text-left">
-                {"Ajouter une table"}
+                {"Ajouter un membre"}
               </AlertDialogDescription>
             )}
           </AlertDialogHeader>
@@ -199,15 +199,15 @@ const TableForm = ({
                   <div className="flex justify-between gap-4">
                     <FormField
                       control={form.control}
-                      name="tableName"
+                      name="name"
                       render={({ field }) => {
                         return (
                           <FormItem className="w-1/2">
-                            <FormLabel>{"Table"}</FormLabel>
+                            <FormLabel>{"Nom"}</FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
-                                placeholder="Nom de la table"
+                                placeholder="Nom du membre"
                                 type="text"
                               />
                             </FormControl>
@@ -217,7 +217,7 @@ const TableForm = ({
                       }}
                     />
 
-                    <FormField
+                    {/*                     <FormField
                       control={form.control}
                       name="maxGuests"
                       render={({ field }) => {
@@ -235,7 +235,7 @@ const TableForm = ({
                           </FormItem>
                         );
                       }}
-                    />
+                    /> */}
                   </div>
 
                   <FormField
@@ -322,7 +322,7 @@ const TableForm = ({
                   </div> */}
                 </div>
                 <div className="flex justify-between">
-                  {waiters && (
+                  {/*                   {waiters && (
                     <FormField
                       control={form.control}
                       name="waiterId"
@@ -355,7 +355,7 @@ const TableForm = ({
                       }}
                     />
                   )}
-
+ */}
                   <div>
                     <Button
                       onClick={() => {
@@ -379,7 +379,7 @@ const TableForm = ({
               </form>
             </Form>
           </div>
-          {table && (
+          {/*           {table && (
             <form className="text-right mx-4">
               <Button
                 variant="empty"
@@ -400,11 +400,11 @@ const TableForm = ({
                 Désassigner
               </Button>
             </form>
-          )}
+          )} */}
         </AlertDialogContent>
       </AlertDialog>
     </div>
   );
 };
 
-export default TableForm;
+export default WaiterForm;

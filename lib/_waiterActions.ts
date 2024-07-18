@@ -5,32 +5,29 @@ import { z } from "zod";
 //import { auth, signIn, signOut } from "@/auth";
 
 import prisma from "./prisma";
-import { TableSchema } from "./schemas";
+import { WaiterSchema } from "./schemas";
 
-type Inputs = z.infer<typeof TableSchema>;
+type Inputs = z.infer<typeof WaiterSchema>;
 
 // Create table
-export const createTable = async (data: Inputs) => {
+export const createWaiter = async (data: Inputs) => {
   //console.log("registerUser", data);
 
-  const result = TableSchema.safeParse(data);
+  const result = WaiterSchema.safeParse(data);
 
   if (result.success) {
-    const { tableName, maxGuests, curGuests, eventId, waiterId } = result.data;
+    const { name, eventId } = result.data;
 
     //console.log("Order", order, countryId);
 
     try {
-      const table = await prisma.table.create({
+      const table = await prisma.waiter.create({
         data: {
-          tableName: data.tableName,
-          maxGuests: +data.maxGuests,
-          curGuests: data.maxGuests ? +data.maxGuests : undefined,
+          name: data.name,
           eventId: +data.eventId,
-          waiterId: data.waiterId ? +data.waiterId : undefined,
         },
       });
-      revalidatePath(`/events/${data.eventId}/tables`);
+      revalidatePath(`/events/${data.eventId}/waiters`);
 
       return { success: true, data: table };
     } catch (error) {
@@ -43,7 +40,7 @@ export const createTable = async (data: Inputs) => {
   }
 };
 
-export const unassignedTable = async (eventId: string, tableId: string) => {
+/* export const unassignedTable = async (eventId: string, tableId: string) => {
   // console.log("DATA2 ", data);
 
   //const result = TableSchema.safeParse(data);
@@ -64,33 +61,28 @@ export const unassignedTable = async (eventId: string, tableId: string) => {
   } catch (error) {
     return { success: false, error };
   }
-};
+}; */
 
 // update table
-export const updateTable = async (data: Inputs) => {
+export const updateWaiter = async (data: Inputs) => {
   // console.log("DATA2 ", data);
 
-  const result = TableSchema.safeParse(data);
+  const result = WaiterSchema.safeParse(data);
 
   if (result.success) {
-    const { id, tableName, maxGuests, curGuests, eventId, waiterId } =
-      result.data;
+    const { id, name } = result.data;
 
     try {
-      const table = await prisma.table.update({
+      const table = await prisma.waiter.update({
         where: {
           id: data.id ? +data.id : undefined,
         },
         data: {
-          tableName: data.tableName,
-          maxGuests: +data.maxGuests,
-          curGuests: data.curGuests ? +data.curGuests : undefined,
-          eventId: +data.eventId,
-          waiterId: data.waiterId ? +data.waiterId : undefined,
+          name: data.name,
         },
       });
 
-      revalidatePath(`/events/${data.eventId}/tables`);
+      revalidatePath(`/events/${data.eventId}/waiters`);
 
       return { success: true, data: table };
     } catch (error) {
@@ -104,9 +96,9 @@ export const updateTable = async (data: Inputs) => {
 };
 
 // Get all tables
-export const getAllTables = async (eventId: string) => {
+export const getAllWaiters = async (eventId: string) => {
   try {
-    const tables = await prisma.table.findMany({
+    const tables = await prisma.waiter.findMany({
       where: {
         eventId: +eventId,
       },
@@ -121,24 +113,24 @@ export const getAllTables = async (eventId: string) => {
 };
 
 // Get specfic table
-export const getTable = async (tableId: string) => {
+export const getWaiter = async (waiterId: string) => {
   try {
-    const table = await prisma.table.findUnique({
+    const waiter = await prisma.waiter.findUnique({
       where: {
-        id: +tableId,
+        id: +waiterId,
       },
     });
     // revalidatePath(`/events/${stock?.id}/stock`);
 
     return {
       success: true,
-      data: table,
+      data: waiter,
     };
   } catch (error) {}
 };
 
 // Get tables per waiter
-export const getTablesPerWaiter = async (waiterId: string) => {
+/* export const getTablesPerWaiter = async (waiterId: string) => {
   try {
     const tables = await prisma.table.findMany({
       where: {
@@ -152,10 +144,10 @@ export const getTablesPerWaiter = async (waiterId: string) => {
       data: tables,
     };
   } catch (error) {}
-};
+}; */
 
 // DELETE stock
-export const deleteTable = async (eventId: string, tableId: string) => {
+export const deleteWaiter = async (eventId: string, waiterId: string) => {
   /*   const check = await checkAuth("ADMIN");
 
   if (check.status == "KO") return check; */
@@ -164,13 +156,13 @@ export const deleteTable = async (eventId: string, tableId: string) => {
   //console.log("stockId: ", stockId);
 
   try {
-    const table = await prisma.table.delete({
+    const table = await prisma.waiter.delete({
       where: {
-        id: +tableId,
+        id: +waiterId,
       },
     });
 
-    revalidatePath(`/events/${eventId}/tables`);
+    revalidatePath(`/events/${eventId}/waiters`);
 
     return {
       success: true,
