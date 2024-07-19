@@ -1,8 +1,8 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+import fondd from "../public/rst.jpg";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { IoIosRemoveCircle, IoMdAddCircle } from "react-icons/io";
+import Link from "next/link";
 
 const tables = [
   { id: 1, name: "Bruxelles", max: 10, occupied: 2 },
@@ -11,63 +11,32 @@ const tables = [
 ];
 
 export default function Home() {
-  return <>HOME</>;
-}
-
-type MyTableProps = {
-  table: any;
-};
-const MyTable = ({ table }: MyTableProps) => {
-  const [occupied, setOccupied] = useState(table?.occupied);
-
   return (
-    <section className="container mt-8 mx-auto">
-      <div className="relative ">
-        <Badge className="text-md absolute border-2 border-sky-400 bg-white px-1 rounded-full font-bold text-center mb-2  -top-3 left-1/2 transform -translate-x-1/2 -translate-y-1/2></div>">
-          <span className="text-md">{table.name}</span>{" "}
-          {occupied >= table.max && (
-            <span className="ml-1 font-normal bg-red-600 text-white text-sm px-1 rounded-full">
-              FULL
-            </span>
-          )}
-        </Badge>
-        <div className=" border-2 border-sky-400 rounded-full flex justify-between items-center">
-          <div className="h-20 w-20 rounded-full bg-sky-400 font-bold flex justify-center items-center">
-            <div className="flex flex-col h-16 w-16 rounded-full bg-white  text-black  font-bold  justify-center items-center">
-              <p className="text-xl">
-                {occupied}
-                <span className="text-xs">/{table.max}</span>
-              </p>
-              <p className="text-sm text-green-600">{table.max - occupied}</p>
-            </div>
-          </div>
-          <div className="font-bold">
-            <Badge className="bg-gray-500 text-white">10 min</Badge>
-          </div>
-          <div className="">
-            <div className="flex">
-              <IoIosRemoveCircle
-                className={
-                  occupied == 0
-                    ? "pointer-events-none text-gray-400"
-                    : "text-red-600"
-                }
-                size={50}
-                onClick={() => setOccupied(occupied - 1)}
-              />
-              <IoMdAddCircle
-                className={
-                  occupied == table.max
-                    ? "pointer-events-none text-gray-400"
-                    : "text-green-600"
-                }
-                size={50}
-                onClick={() => setOccupied(occupied + 1)}
-              />
-            </div>
-          </div>
-        </div>
+    <div className="overflow-hidden relative text-white flex flex-col md:flex-row gap-10 justify-center items-center  h-screen md:px-2">
+      <Image
+        alt="bcg"
+        src={fondd}
+        placeholder="blur"
+        quality={100}
+        fill
+        sizes="100vw"
+        className="object-cover -z-10 rounded-lg"
+      />
+
+      <div className="absolute top-3/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+        <p className="fond-bold  text-center text-4xl">Event</p>
+        <p className=" text-center text-6xl">Manager</p>
+        <p className="text-center text-xl mt-6 text-yellow-200">
+          Gérér efficacement le placement et le service à table de vos invités
+          lors de vos événements.
+        </p>
+
+        <Link href="/">
+          <p className="mt-20 rounded-lg p-2 text-white text-center bg-sky-600  text-xl w-full">
+            Connexion
+          </p>
+        </Link>
       </div>
-    </section>
+    </div>
   );
-};
+}
